@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+      <head>
+            <meta charset="UTF-8" />
+            <link rel="icon" type="image/png" href="/new_short_logo_focused.png" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <link rel="stylesheet"
+                  href="https://fonts.googleapis.com/css?family=Montserrat">
+            <title>Aprende Pe</title>   
+            <style>
+                  .spin-on-load {
+                        animation: spin 1s cubic-bezier(0.43, 0.13, 0.23, 0.96);
+                  }
+                
+                  .spin-on-hover {
+                        animation: spinhalf 1s cubic-bezier(0.43, 0.13, 0.23, 0.96);
+                  }
+
+                  .font-personalized {
+                        font-family: 'Montserrat', serif;
+                  }
+
+                  .modal-content {
+                        font-family: 'Montserrat', serif;
+                  }
+                
+                  @keyframes spin {0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                  @keyframes spinhalf {0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+            
+            </style>         
+
+      </head>
+      <body>
+            <div id="root"></div>
+            <script type="module" src="/src/main.jsx"></script>
+
+            <script src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js" crossorigin></script>
+            <script
+            src="https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"
+            crossorigin></script>
+            <script
+            src="https://cdn.jsdelivr.net/npm/react-bootstrap@next/dist/react-bootstrap.min.js"
+            crossorigin></script>
+      </body>
+</html>

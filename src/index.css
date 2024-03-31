@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Tangerine');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* For Chrome */
+body::-webkit-scrollbar {
+      width: 12px;
+    }
+    
+    body::-webkit-scrollbar-thumb {
+      background-color: rgba(136, 136, 136, 0.7); /* Semi-transparent grey color */
+      border-radius: 12px; /* Rounded corners */
+    }
+    
+    body::-webkit-scrollbar-track {
+      background-color: transparent; /* Make the track transparent */
+      border-radius: 12px; /* Rounded corners for the track */
+    }
+    
+    body::-webkit-scrollbar-button {
+      display: none; /* Hide the scrollbar buttons (arrows) */
+    }
+
+    
+/* For WebKit browsers (like Chrome and Safari) */
+::-webkit-scrollbar {
+width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+background-color: rgba(136, 136, 136, 0.7); /* Semi-transparent grey color */
+border-radius: 12px; /* Rounded corners */
+}
+
+::-webkit-scrollbar-track {
+background-color: transparent; /* Make the track transparent */
+border-radius: 12px; /* Rounded corners for the track */
+}
+
+::-webkit-scrollbar-button {
+display: none; /* Hide the scrollbar buttons (arrows) */
+}
+
+/* For Firefox */
+/* You may need to use 'scrollbar-color' property for newer versions of Firefox */
+/* For older versions, you may use '-moz-scrollbars' property */
+/* See the Mozilla documentation for compatibility details */
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color */
+* {
+scrollbar-color: rgba(136, 136, 136, 0.7) transparent; /* Semi-transparent grey color */
+scrollbar-width: thin;
+}
+
+/* For IE and Edge */
+/* Note: Customizing scrollbar in IE and Edge is more limited */
+/* You may need to use proprietary -ms- prefixed properties */
+/* See Microsoft documentation for details */
+/* https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/hh771902(v=vs.85) */
+/* https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/hh772047(v=vs.85) */
