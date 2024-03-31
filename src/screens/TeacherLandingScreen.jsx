@@ -19,7 +19,7 @@ function TeacherLandingScreen({userInfo, teacherProfile, categories, universitie
       //TEACHER PROFILE
       const [resume, setResume] = useState('')
       const [hourlyPrice, setHourlyPrice] = useState(0)
-      const [coin, setCoin] = useState(constants?.coin_types[0]?.short_name || '')
+      const [coin, setCoin] = useState(constants?.coin_types != undefined && constants?.coin_types?.length > 0 ? constants.coin_types[0]?.short_name : '')
       const [teacherError, setTeacherError] = useState('')
 
       //DIFERENTIALS AND QUESTIONS
@@ -95,7 +95,7 @@ function TeacherLandingScreen({userInfo, teacherProfile, categories, universitie
             if (userInfo.user) {
                   if (subjects.length > 0) {
                         setTeacherError('')
-                        dispatch(createTeacherProfile({subjects:subjects.map(obj => obj.id).join(','), resume:resume, hourly_price:hourlyPrice, coin:constants?.coin_types?.find((obj) => obj.short_name == coin)?.id, token:userInfo?.token}))
+                        dispatch(createTeacherProfile({subjects:subjects.map(obj => obj.id).join(','), resume:resume, hourly_price:hourlyPrice, coin:constants.coin_types.find((obj) => obj.short_name == coin).id, token:userInfo?.token}))
                         .then((result) => {
                               if (result?.error?.message) {
                                     setTeacherError(result.error.message)
@@ -283,7 +283,7 @@ function TeacherLandingScreen({userInfo, teacherProfile, categories, universitie
                         </Col>
                         <Col md={6} className='mt-4'>
                               <div className='px-2'>
-                                    {teacherProfile?.teacherProfile !== undefined && userInfo?.user !== null && Object.keys(teacherProfile?.teacherProfile || {})?.length >= 3 ? (
+                                    {teacherProfile.teacherProfile !== undefined && userInfo.user !== null && Object.keys(teacherProfile.teacherProfile)?.length >= 3 ? (
                                           <div className='rounded-2xl bg-white p-4 my-48 flex flex-col items-center justify-center'>
                                                 <h5 className='mb-4'>¡Felicidades! Ya creaste tu perfil, ahora</h5>
                                                 <Button onClick={() => {navigate('/teacher-profile')}}>Activalo</Button>
@@ -293,7 +293,7 @@ function TeacherLandingScreen({userInfo, teacherProfile, categories, universitie
                                     
                                     <Form onSubmit={(e)=> {handleCreateTeacherProfile(e)}} className='rounded-2xl bg-white p-4 mb-5'>
                                           <span className='flex items-center mb-3'>
-                                                {userInfo?.user ? <>
+                                                {userInfo.user ? <>
                                                 <img src={userInfo?.user?.profile_image} alt="Profile" className="w-10 h-10 rounded-full mr-3" />  
                                                 <h6 className='m-0'><span className='text-blue-400'>Profesor@</span> {userInfo?.user?.first_name} {userInfo?.user?.last_name}</h6>
                                                 </>: <h5 className=''>Regístrese como profesor</h5> 
@@ -358,7 +358,7 @@ function TeacherLandingScreen({userInfo, teacherProfile, categories, universitie
                                                                         style={{maxHeight: '300px', overflowY: 'auto'}}
                                                                         popperConfig={{modifiers: [{name: 'offset', options: {offset: [0, -150]} }] }}>
                                                                         <Dropdown.Header>Moneda </Dropdown.Header>
-                                                                        {constants?.coin_types?.map((coin_type, i) => (
+                                                                        {constants.coin_types?.map((coin_type, i) => (
                                                                               <Dropdown.Item key={i} eventKey={coin_type.short_name} /*value={coin_type.short_name}*/>
                                                                                     {coin_type.short_name} - {coin_type.name}
                                                                               </Dropdown.Item>
