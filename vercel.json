@@ -1,8 +1,8 @@
 {
-      "redirects":[
-         {
-            "source":"/:path*",
-            "destination":"https://aprende.pe/"
-         }
+      "rewrites": [
+        {
+          "source": "/:path",
+          "destination": "https://aprende.pe/"
+        }
       ]
-   }
+    }
