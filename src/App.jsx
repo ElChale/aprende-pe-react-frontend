@@ -148,7 +148,7 @@ function App() {
                         let opened_sockets = []
                         for(let i = 0; i < chats.length; i++) {
                               // Open websocket
-                              const socketURL = `ws://${SHORT_BASE_URL}/ws/chat/${chats[i].teacher.user.email}/${chats[i].student.email}/?token=${userInfo.token}`
+                              const socketURL = `wss://${SHORT_BASE_URL}/ws/chat/${chats[i].teacher.user.email}/${chats[i].student.email}/?token=${userInfo.token}`
                               const newSocket = new WebSocket(socketURL)
 
                               // Declare websocket methods
