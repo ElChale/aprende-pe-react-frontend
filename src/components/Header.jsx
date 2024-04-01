@@ -162,7 +162,7 @@ function Header({ userInfo, teacherProfile, userChildren, userMessages }) {
                                                       
                                                 ) : ( <> <div onClick={teacherProfilePage} className='self-center py-1 mx-3 my-1 select-none hover:text-gray-100'>Quiero Enseñar</div>
                                                             <div onClick={userPage}>
-                                                                  <img src={BASE_URL + '/images/Profile.jpg'} alt="Profile" className="w-10 h-10 rounded-full" />
+                                                                  <img src={'https://aprende-pe-bucket-1.s3.amazonaws.com/images/profile.jpg'} alt="Profile" className="w-10 h-10 rounded-full" />
                                                             </div> </> )
                                           }
                                     </div>

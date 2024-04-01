@@ -1,6 +1,6 @@
-export const IP = '3.129.147.60' //'127.0.0.1' //'3.129.147.60' //'192.168.18.8' 
-export const SHORT_BASE_URL = `${IP}:8000`
-export const BASE_URL = `http://${IP}:8000`  //'http://192.168.18.8:8000' //'http://127.0.0.1:8000' //'http://10.80.8.172:8000' 
+export const IP = 'www.aprendepe.com' //'3.129.147.60' //'127.0.0.1' //'3.129.147.60' //'192.168.18.8' 
+export const SHORT_BASE_URL = `${IP}` //`${IP}:8000`
+export const BASE_URL = 'https://www.aprendepe.com' //`http://${IP}:8000`  //'http://192.168.18.8:8000' //'http://127.0.0.1:8000' //'http://10.80.8.172:8000' 
 
 export const CONTACT_PHONE = '51936282808'
 export const CONTACT_EMAIL = 'soporte.aprendepe@gmail.com'
