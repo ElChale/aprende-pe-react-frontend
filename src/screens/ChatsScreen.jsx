@@ -8,7 +8,7 @@ import { useParams, useNavigate  } from 'react-router-dom'
 import { Container, Row, Col, Form, Card, Dropdown, Badge, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
 import { BASE_URL, SHORT_BASE_URL, chatPageSize, messagePageSize, weekDaysMapping } from '../utils';
 
-function ChatsScreen({ userInfo, userChildren, userChats, userMessages, openSockets }) {
+function ChatsScreen({ userInfo, userChildren, userChats, userMessages, openSockets, handleReloadChats }) {
       const dispatch = useDispatch();
       const navigate = useNavigate()
       const chatRef = useRef(null)
@@ -221,7 +221,25 @@ function ChatsScreen({ userInfo, userChildren, userChats, userMessages, openSock
             <Container className='bg-white border my-lg-4' style={chatScreenWidth < 1000 ? {position:"fixed", left:0, right:0, top:"80px", zIndex:4, height:chatScreenHeight} : {borderRadius:"20px"}} >
                   <Row>
                         <Col md={3}  className={`${openChat !== "" ? "hidden" : ""} md:block border-r`} >
-                              <div onClick={() => handleSelectChat("")} style={{height:topHeight}} className='flex align-items-center p-2 border-b'>Tus chats</div>
+                              <div onClick={() => handleSelectChat("")} style={{height:topHeight}} className='flex items-center  p-2 border-b'>Tus chats
+                              {
+                                                userChats.loading == true ? (
+                                                      <img
+                                                            src="/tail_blue_fast.svg"
+                                                            alt="Loading..."
+                                                            className="w-6 h-auto ml-2"
+                                                      />
+                                                ) : (
+                                                      <button onClick={() => {handleReloadChats()}} className='ml-2'>
+                                                            <img
+                                                                  src="/reload_icon.png"
+                                                                  alt="Reload"
+                                                                  className="w-4 h-auto mb-1"
+                                                            />
+                                                      </button>
+                                                )
+                                          }
+                              </div>
                         </Col>
                         <Col md={9} className={`${openChat === "" ? "hidden" : ""} md:block`} >
                               <div className='flex py-2 align-items-center border-b' style={{height:topHeight}}>

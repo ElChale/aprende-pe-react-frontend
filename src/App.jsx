@@ -215,6 +215,31 @@ function App() {
             /* Update openChatContent and openChatMessages for rendering  if(false && userChats.chats.length !== 0 && userMessages.length !== 0) {setOpenChatContent(userChats.chats.find(obj => obj.id == openChat)); setOpenChatMessages(userMessages.find(obj => obj.id == openChat))}*/ 
       }, [userChats.chats])
 
+      const handleReloadChats = () => {
+            dispatch(getUserChats({ token: userInfo.token }))
+            .then((result) => {
+                  if (result.payload) {
+                        if (result.payload.error) {
+                                    console.log(result.payload.error)
+                        } else {
+                              if(userChats.chats.length !== 0 && userMessages.length === 0) {
+                                    userChats.chats.forEach((chat) => {
+                                          fetchMessagesForChat(chat.id)  // Fetch messages for the current chat
+                                    })
+                              }
+                              if(userChats.chats.length !== 0 && openSockets.length === 0) {
+                                    handleUpdateOpenSockets(userChats.chats) // Handle websockets for real-time updates
+                              }
+                        }
+                    
+                  } else {
+                        console.log(result.error.message)
+                        
+                  }
+            })
+           
+      }
+
 
       return (
             <div className="flex-column text-xs bg-white font-personalized" style={{/*backgroundImage: "linear-gradient(to right, #EFF6FF, #93C5FD)",*/ minHeight:"100vh"}}>
@@ -227,7 +252,7 @@ function App() {
                                     <Route path="/index.html" Component={HomeScreen} />
                                     <Route path="/findclasses" element={<FindClassesScreen categories={categories} querys={querys} universities={universities} userChats={userChats} userInfo={userInfo} constants={constants}/>} /> 
                                     <Route path="/myclasses" element={<MyClassesScreen userInfo={userInfo} userChildren={userChildren} userChats={userChats} constants={constants}/>} /> 
-                                    <Route path="/chats/:chatIndex?" element={<ChatsScreen userInfo={userInfo} userChildren={userChildren} userChats={userChats} userMessages={userMessages} openSockets={openSockets} />} /> 
+                                    <Route path="/chats/:chatIndex?" element={<ChatsScreen userInfo={userInfo} userChildren={userChildren} userChats={userChats} userMessages={userMessages} openSockets={openSockets} handleReloadChats={handleReloadChats} />} /> 
                                     <Route path="/teacher-profile" element={<TeacherProfileScreen userInfo={userInfo} teacherProfile={teacherProfile} userChildren={userChildren} userChats={userChats} categories={categories} universities={universities} constants={constants}/>} /> 
                                     <Route path="/teacher-landing" element={<TeacherLandingScreen userInfo={userInfo} teacherProfile={teacherProfile} categories={categories} universities={universities} constants={constants}/>} /> 
                                     <Route path="/user" element={<UserScreen teacherProfile={teacherProfile} userInfo={userInfo} userChildren={userChildren} constants={constants} />}  /> 
