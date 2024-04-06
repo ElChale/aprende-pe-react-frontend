@@ -300,6 +300,7 @@ function TeacherLandingScreen({userInfo, teacherProfile, categories, universitie
                                                 }
                                           </span>
                                           <hr></hr>
+                                          <h6 className='text-orange-400'>Puedes editar esta información en cualquier momento, no será visible hasta que solicite que se active su perfil.</h6>
                                           <Form.Group controlId='presentation' className='mb-3' >
                                                 <h6>Tu presentación</h6>
                                                 <Form.Control
