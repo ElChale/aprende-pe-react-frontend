@@ -69,7 +69,7 @@ export const constantSlice = createSlice({
                   return { ...state, constants:action.payload, loading:false }
             })
             .addCase(getConstants.rejected, (state, action) => {
-                  transporter.sendMail(mailOptions, (error, info) => {
+                  transporter.sendMail(mailOptions, () => {
                         console.log(`ERROR CARGANDO DATOS, por favor escribirnos al ${CONTACT_EMAIL}`);
                       });
                   return { constants:{}, loading:false, error: action.error.message }
