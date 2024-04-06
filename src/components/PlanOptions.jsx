@@ -5,7 +5,7 @@ import { BASE_URL, BLUE, PINK, ORANGE, GREEN, CONTACT_PHONE, CONTACT_EMAIL } fro
 
 function PlanOptions({ userInfo }) {
       const handleWhatsappRequest = (plan) => {
-            const message = `Hola, mi nombre es ${userInfo?.user?.first_name} ${userInfo?.user?.last_name} y quiero solicitar el plan ${plan} para activar mi perfil de profesor en Aprende.Pe. \nMi correo es: ${userInfo?.user?.email} y mi número de telefono es: ${userInfo?.user?.phone_number}`;
+            const message = `Hola, mi nombre es ${userInfo?.user?.first_name} ${userInfo?.user?.last_name} y quiero solicitar el plan ${plan} para activar mi perfil de profesor en Aprende.Pe. \nMi correo para que pueda ubicar mi usuario es: ${userInfo?.user?.email}`;
 
             const whatsappLink = `https://wa.me/${CONTACT_PHONE}?text=${encodeURIComponent(message)}`;
 
@@ -14,13 +14,19 @@ function PlanOptions({ userInfo }) {
 
       const handleEmailRequest = (plan) => {
             const subject = `Solicitud de plan ${plan} para Aprende.pe`;
-            const body = `Hola, mi nombre es ${userInfo?.user?.first_name} ${userInfo?.user?.last_name} y quiero solicitar el plan ${plan} para activar mi perfil de profesor en Aprende.Pe. \nMi correo es: ${userInfo?.user?.email} y mi número de telefono es: ${userInfo?.user?.phone_number}`;
+            const body = `Hola, mi nombre es ${userInfo?.user?.first_name} ${userInfo?.user?.last_name} y quiero solicitar el plan ${plan} para activar mi perfil de profesor en Aprende.Pe. \nMi correo es para que pueda ubicar mi usuario es: ${userInfo?.user?.email}`;
             const mailtoLink = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
             window.open(mailtoLink, '_blank'); 
       }
       return (
-            <>
+            <div className='relative'>
+                  <div className='flex flex-col items-center justify-center text-white absolute text-lg font-bold bg-gray-800 bg-opacity-75 top-20 left-0 right-0 bottom-0 z-10' >
+      ¡Es grátis!
+      <Button onClick={() => {handleWhatsappRequest('GRATIS')}} className='my-2'>Solicitar por whatsapp</Button>
+      <Button onClick={() => {handleEmailRequest('GRATIS')}}>Solicitar por correo</Button>
+
+    </div>
             <Row className='my-4'>
                   <Col>
                         <h5>Activa tu perfil de profesor</h5>
@@ -57,7 +63,7 @@ function PlanOptions({ userInfo }) {
                   </Col>
             </Row>
             
-            </>
+            </div>
       )
 }
 
