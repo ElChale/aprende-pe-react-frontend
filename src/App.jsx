@@ -83,6 +83,7 @@ function App() {
                   dispatch(getConstants())
             } else {
                   dispatch(resetUserInfo())
+                  dispatch(getConstants())
             }
       }, [])
       
