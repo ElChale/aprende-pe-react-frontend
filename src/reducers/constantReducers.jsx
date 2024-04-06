@@ -16,7 +16,7 @@ export const getConstants = createAsyncThunk("constants/getConstants", async () 
             const response = await fetch(`${BASE_URL}/api/constants/get/`, {method: "GET"})
             if (!response.ok) {
 
-                                                
+                         /*                       
                   const error_email_subject = 'ERROR DE CARGA DE CONSTANTES';
                   const error_email_content = `
                   <html>
@@ -36,7 +36,7 @@ export const getConstants = createAsyncThunk("constants/getConstants", async () 
                         pass: GMAIL_PASSWORD
                         }
                   });
-                  /*
+                  
                   const mailOptions = {
                         from: SENDER_EMAIL, // sender address
                         to: CONTACT_EMAIL, // list of receivers
@@ -47,6 +47,7 @@ export const getConstants = createAsyncThunk("constants/getConstants", async () 
                   transporter.sendMail(mailOptions, () => {
                         console.log(`ERROR CARGANDO DATOS, por favor escribirnos al ${CONTACT_EMAIL}`);
                       });*/
+                  
             }
             
             const data = await response.json()
