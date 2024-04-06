@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL,  messagePageSize, languageMapping, CONTACT_EMAIL, CONTACT_PHONE, SENDER_EMAIL, GMAIL_PASSWORD } from '../utils'
-import { createTransport } from "nodemailer";
+//import { createTransport } from "nodemailer";
 
 const constantsFromStorage = localStorage.getItem("constants") ? JSON.parse(localStorage.getItem("constants")) : {}
 
