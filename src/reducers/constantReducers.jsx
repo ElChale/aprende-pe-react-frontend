@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL,  messagePageSize, languageMapping } from '../utils'
+import { BASE_URL,  messagePageSize, languageMapping, CONTACT_EMAIL, CONTACT_PHONE, SENDER_EMAIL, GMAIL_PASSWORD } from '../utils'
+import { createTransport } from "nodemailer";
 
 const constantsFromStorage = localStorage.getItem("constants") ? JSON.parse(localStorage.getItem("constants")) : {}
 
@@ -23,6 +24,34 @@ export const getConstants = createAsyncThunk("constants/getConstants", async () 
 });
 
 
+const error_email_subject = 'ERROR DE CARGA DE CONSTANTES';
+const error_email_content = `
+<html>
+<head></head>
+<body>
+      <h4>ERROR</h4>
+      <p>Hubo un error de carga al intentar descargar las constantes desde la base de datos.</p>
+      <p><small>Este correo es destinado para ser recibido por un administrador de aprende.pe</small></p>
+</body>
+</html>
+`;
+
+const transporter = createTransport({
+      service: 'gmail',
+      auth: {
+        user: SENDER_EMAIL,
+        pass: GMAIL_PASSWORD
+      }
+    });
+
+const mailOptions = {
+      from: SENDER_EMAIL, // sender address
+      to: CONTACT_EMAIL, // list of receivers
+      subject: error_email_subject, // Subject line
+      html: error_email_content // html body
+};
+
+
 
 // Create a userInfo slice
 export const constantSlice = createSlice({
@@ -40,6 +69,9 @@ export const constantSlice = createSlice({
                   return { ...state, constants:action.payload, loading:false }
             })
             .addCase(getConstants.rejected, (state, action) => {
+                  transporter.sendMail(mailOptions, (error, info) => {
+                        console.log(`ERROR CARGANDO DATOS, por favor escribirnos al ${CONTACT_EMAIL}`);
+                      });
                   return { constants:{}, loading:false, error: action.error.message }
             })
             
