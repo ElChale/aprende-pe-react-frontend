@@ -24,6 +24,25 @@ export const getConstants = createAsyncThunk("constants/getConstants", async () 
 });
 
 
+
+
+// Create a userInfo slice
+export const constantSlice = createSlice({
+      name: "constants",
+      initialState,
+      reducers: {},
+      extraReducers: (builder) => {
+            builder
+            //GET CONSTANTS
+            .addCase(getConstants.pending, (state, action) => {
+                  return { ...state,  loading:true }
+            })
+            .addCase(getConstants.fulfilled, (state, action) => {
+                  localStorage.setItem("constants", JSON.stringify(action.payload))
+                  return { ...state, constants:action.payload, loading:false }
+            })
+            .addCase(getConstants.rejected, (state, action) => {
+                  
 const error_email_subject = 'ERROR DE CARGA DE CONSTANTES';
 const error_email_content = `
 <html>
@@ -51,24 +70,6 @@ const mailOptions = {
       html: error_email_content // html body
 };
 
-
-
-// Create a userInfo slice
-export const constantSlice = createSlice({
-      name: "constants",
-      initialState,
-      reducers: {},
-      extraReducers: (builder) => {
-            builder
-            //GET CONSTANTS
-            .addCase(getConstants.pending, (state, action) => {
-                  return { ...state,  loading:true }
-            })
-            .addCase(getConstants.fulfilled, (state, action) => {
-                  localStorage.setItem("constants", JSON.stringify(action.payload))
-                  return { ...state, constants:action.payload, loading:false }
-            })
-            .addCase(getConstants.rejected, (state, action) => {
                   transporter.sendMail(mailOptions, () => {
                         console.log(`ERROR CARGANDO DATOS, por favor escribirnos al ${CONTACT_EMAIL}`);
                       });
