@@ -6,7 +6,7 @@ export const CONTACT_PHONE = '51936282808'
 export const CONTACT_EMAIL = 'soporte.aprendepe@gmail.com'
 
 export const SENDER_EMAIL = 'sofia.medina.marketing@gmail.com'
-export const GMAIL_PASSWORD = 'eypgveuducxjwgik'
+export const GMAIL_PASSWORD = ''
 
 export const BLUE = '#3b82f6'
 export const PINK = '#f63bdf'
