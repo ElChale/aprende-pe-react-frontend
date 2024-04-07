@@ -4,6 +4,7 @@ export const BASE_URL = 'https://www.aprendepe.com' //`http://${IP}:8000`  //'ht
 
 export const CONTACT_PHONE = '51936282808'
 export const CONTACT_EMAIL = 'soporte.aprendepe@gmail.com'
+export const WHATSAP_COMUNIDAD = 'https://chat.whatsapp.com/KBIHbOHhYgX20n4e2QxICC'
 
 export const SENDER_EMAIL = 'sofia.medina.marketing@gmail.com'
 export const GMAIL_PASSWORD = ''

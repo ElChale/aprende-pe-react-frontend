@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col, Navbar, Nav, Container } from 'react-bootstrap'
-import { BASE_URL, BLUE, CONTACT_EMAIL, CONTACT_PHONE } from '../utils'
+import { BASE_URL, BLUE, CONTACT_EMAIL, CONTACT_PHONE, WHATSAP_COMUNIDAD } from '../utils'
 import { useNavigate } from 'react-router-dom'
 
 function Footer() {
@@ -89,13 +89,15 @@ function Footer() {
 
                                     <p onClick={() => {window.open('https://www.instagram.com/aprende.pe_', '_blank')}} className='mb-2 select-none hover:text-gray-100'>Instagram</p>
                                     <p onClick={() => {window.open('https://www.tiktok.com/@aprende.pe_', '_blank')}} className='mb-2 select-none hover:text-gray-100'>TikTok</p>
+                                    <p onClick={() => {window.open(WHATSAP_COMUNIDAD, '_blank')}} className='mb-2 select-none hover:text-gray-100'>Comunidad whatsapp</p>
 
                               </Col>  
 
                               <Col xs={6} sm={3} md={2} className='py-3'>
                                     <h6 className='mb-8 text-white'>Soporte</h6>
 
-                                    <p onClick={() => {window.open(`https://api.whatsapp.com/send?phone=${CONTACT_PHONE}&text=Hola%20quiero%20informaci%C3%B3n%20acerca%20de%20aprende.pe`, '_blank')}} className='mb-2 select-none hover:text-gray-100'>Whatsapp</p>
+                                    <p onClick={() => {window.open(WHATSAP_COMUNIDAD, '_blank')}} className='mb-2 select-none hover:text-gray-100'>Comunidad whatsapp</p>
+                                    <p onClick={() => {window.open(`https://api.whatsapp.com/send?phone=${CONTACT_PHONE}&text=Hola%20quiero%20informaci%C3%B3n%20acerca%20de%20aprende.pe`, '_blank')}} className='mb-2 select-none hover:text-gray-100'>Soporte whatsapp</p>
                                     <p onClick={() => {window.open(`mailto:${CONTACT_EMAIL}?subject=Consulta%20general%20acerca%20de%20Aprende.pe&body=Estimado%20equipo%20de%20Aprende.pe%2C%20tengo%20una%20consulta%20acerca%20de%20la%20plataforma`, '_blank')}} className='mb-2 select-none hover:text-gray-100'>Email</p>
                                     
                               </Col>
