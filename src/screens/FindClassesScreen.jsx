@@ -898,7 +898,7 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                   {
                         teacherError !== '' && <Row><Col className='flex flex-col items-center text-red-400'>{teacherError}</Col></Row>
                   }
-                  {teacherProfilesQuery?.length > 0 && teacherProfilesQuery?.length < 9 && page == 1 &&
+                  {teacherProfilesQuery?.length > 0 && teacherProfilesQuery?.length < 9 && 
                         <Row>
                               <Col className='flex flex-col items-center my-5'>
                                     <h4>Parece que aun no hay muchos profesores que enseñan estos cursos</h4>
