@@ -87,6 +87,8 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
       const [showClassTypesListModal, setShowClassTypesListModal] = useState(false)
       const [showClassTypeModal, setShowClassTypeModal] = useState(false)
 
+      // CONTROL OF QUERY TYPE
+      const [isInitial, setIsInitial] = useState(true)
       
 
       // SUBJECTS LOGIC
@@ -185,7 +187,6 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
             } else {
                   navigate('/user')
             }
-
       }
       
 
@@ -194,6 +195,7 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
       // QUERY
       const handleQueryTeacherProfiles = () => {
             dispatch(queryTeacherProfiles({ subject_ids:subjects.map(item => item.id), price_order:priceOrder, rating_order:ratingOrder, hours_teached_order:hoursTeachedOrder, page:page }))
+            setIsInitial(false)
       }
       const handlePageChange = (page) => {
             if(0 < page && page <= numPages) {
@@ -770,7 +772,7 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                                     onMouseOver={(e) => e.target.children[0]?.classList.add('spin-on-hover')}
                                     onMouseOut={(e) => e.target.children[0]?.classList.remove('spin-on-hover')}
                                     >
-                                          Agregar<img src='/plus_icon.png' alt="+" className="ml-2 w-3 h-3"
+                                          {subjects?.length > 0 ? "Agregar" : "Seleccionar cursos"}<img src='/plus_icon.png' alt="+" className="ml-2 w-3 h-3"
                                           style={{
                                                 transition: 'transform 1s cubic-bezier(0.43, 0.13, 0.23, 0.96)'
                                           }}
@@ -898,31 +900,34 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                   {
                         teacherError !== '' && <Row><Col className='flex flex-col items-center text-red-400'>{teacherError}</Col></Row>
                   }
-                  {teacherProfilesQuery?.length > 0 && teacherProfilesQuery?.length < 9 && 
+                  {teacherProfilesQuery?.length < 9 && 
                         <Row>
                               <Col className='flex flex-col items-center my-5'>
                                     <h4>Parece que aun no hay muchos profesores que enseñan estos cursos</h4>
-                                    <Button onClick={() => {navigate('/teacher-profile')}}>Regístrate para ser profesor</Button>
+                                    <Button className='my-3' onClick={() => {navigate('/teacher-profile')}}>Regístrate para ser profesor</Button>
+                                    <Button onClick={() => handleCategoriesModal()}>Seleccionar otros cursos</Button>
                               </Col>
                         </Row>
                   }
-                  <Row>
-                        <Col className='flex justify-center items-center mb-5'>
-                              <div className='w-fit flex items-center justify-center py-2 px-3 border rounded-xl'>
-                                    <img onClick={() => {handlePageChange(page-1)}} className={`w-3 h-3 ${page == 1 ? 'opacity-25' : 'scale-100 hover:scale-105'}`} src='/back_icon.png'/>
-                                    {getPageNumbers().map((pageNumber) => (
-                                          <span
-                                                key={pageNumber}
-                                                className={`mx-2  ${pageNumber === page ? 'text-black' : 'text-gray-400'}`}
-                                                onClick={() => handlePageChange(pageNumber)}
-                                          >
-                                                {pageNumber}
-                                          </span>
-                                    ))}
-                                    <img onClick={() => {handlePageChange(page+1)}} className='w-3 h-3 scale-100 hover:scale-105' src='/forward_icon.png'/>
-                              </div>
-                        </Col>
-                  </Row>
+                  {!isInitial &&
+                        <Row>
+                              <Col className='flex justify-center items-center mb-5'>
+                                    <div className='w-fit flex items-center justify-center py-2 px-3 border rounded-xl'>
+                                          <img onClick={() => {handlePageChange(page-1)}} className={`w-3 h-3 ${page == 1 ? 'opacity-25' : 'scale-100 hover:scale-105'}`} src='/back_icon.png'/>
+                                          {getPageNumbers().map((pageNumber) => (
+                                                <span
+                                                      key={pageNumber}
+                                                      className={`mx-2  ${pageNumber === page ? 'text-black' : 'text-gray-400'}`}
+                                                      onClick={() => handlePageChange(pageNumber)}
+                                                >
+                                                      {pageNumber}
+                                                </span>
+                                          ))}
+                                          <img onClick={() => {handlePageChange(page+1)}} className='w-3 h-3 scale-100 hover:scale-105' src='/forward_icon.png'/>
+                                    </div>
+                              </Col>
+                        </Row>
+                  }
                   
                  
             </Container>
