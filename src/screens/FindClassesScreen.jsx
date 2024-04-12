@@ -857,7 +857,14 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                   </Row>
 
                   <hr></hr>
-                  
+                  {isInitial &&
+                        <Row>
+                              <Col className='flex flex-col items-center my-5'>
+                                    <h4>Profesores nuevos</h4>
+                                    
+                              </Col>
+                        </Row>
+                  }
                   <Row>
                         { !querys.loading ?
                               teacherProfilesQuery?.map((teacher, i) => (
