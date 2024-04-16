@@ -16,6 +16,9 @@ import UserScreen from './screens/UserScreen'
 import ReservationScreen from './screens/ReservationScreen'
 import TeacherViewScreen from './screens/TeacherViewScreen';
 
+import AdminSubjectsScreen from './admin/AdminSubjectsScreen';
+
+
 import { login, getReservations, resetUserInfo } from './reducers/userReducers';
 import { getCategories, getUniversities, getSubjects } from './reducers/subjectReducers';
 import { getTeacherProfile, getTeacherReservations } from './reducers/teacherReducers';
@@ -260,12 +263,16 @@ function App() {
                                     <Route path="/reservation" element={<ReservationScreen userInfo={userInfo} userChildren={userChildren} querys={querys} constants={constants} />}  /> 
                                     <Route path="/teacher-view" element={<TeacherViewScreen userInfo={userInfo} querys={querys} userChats={userChats} categories={categories} universities={universities} constants={constants} />}  /> 
                                     <Route path="/suggestions" element={<SuggestionsScreen userInfo={userInfo} suggestions={suggestions} />}  /> 
+
                                     
                                     {/* STATICS */}
                                     <Route path="/FAQS" element={<FAQS />}  /> 
                                     <Route path="/Nosotros" element={<Nosotros />}  /> 
                                     <Route path="/Terminos" element={<Terminos />}  /> 
                                     <Route path="/sample_qr" element={<SampleQr />}  /> 
+
+                                    {/* ADMIN */}
+                                    <Route path="/secret-subjects-route" element={<AdminSubjectsScreen userInfo={userInfo} categories={categories} universities={universities} />}  /> 
 
                               
                         </Routes>

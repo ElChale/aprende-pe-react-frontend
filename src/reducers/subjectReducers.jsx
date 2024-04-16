@@ -11,6 +11,127 @@ const initialState = {
 }
 
 
+export const createUniversity = createAsyncThunk("subjects/createUniversity", async ({ name, description, token }) => {
+      try {
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("description", description);
+
+            const response = await fetch(`${BASE_URL}/api/subjects/create-university/`, {
+                  method: "POST", 
+                  headers: {Authorization: `Token ${token}`},
+                  body: formData
+            })
+            if (!response.ok) {throw new Error("Create university request failed.")}
+            
+            const data = await response.json()
+            return data
+      } catch (error) {
+            throw error;
+      }
+});
+
+export const createSubjectCategory = createAsyncThunk("subjects/createSubjectCategory", async ({ name, description, token }) => {
+      try {
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("description", description);
+
+            const response = await fetch(`${BASE_URL}/api/subjects/create-subjectcategory/`, {
+                  method: "POST", 
+                  headers: {Authorization: `Token ${token}`},
+                  body: formData
+            })
+            if (!response.ok) {throw new Error("Create subjectcategory request failed.")}
+            
+            const data = await response.json()
+            return data
+      } catch (error) {
+            throw error;
+      }
+});
+
+export const createSubjectList = createAsyncThunk("subjects/createSubjectList", async ({ subjects, category_id, token }) => {
+      try {
+            let subject_list = subjects.split(/\r?\n/)
+            let data = []
+            for (let subject of subject_list) {
+                  if(subject != ''){
+                        let formData = new FormData();
+                        formData.append("name", subject);
+                        formData.append("description", subject);
+                        formData.append("category", category_id);
+                        let response = await fetch(`${BASE_URL}/api/subjects/create-subject/`, {
+                              method: "POST", 
+                              headers: {Authorization: `Token ${token}`},
+                              body: formData
+                        })
+                        let subject_data = await response.json()
+                        data.push(subject_data)
+                  }
+            }
+            return data
+      } catch (error) {
+            throw error;
+      }
+});
+
+export const createUniversityDegree = createAsyncThunk("subjects/createUniversityDegree", async ({ degrees, university_id, token }) => {
+      try {
+            let degree_list = degrees.split(/\r?\n/)
+            let data = []
+            for (let degree of degree_list) {
+                  if(degree != ''){
+                        let formData = new FormData();
+                        formData.append("name", degree);
+                        formData.append("description", degree);
+                        formData.append("is_university_degree", true);
+                        formData.append("university", university_id);
+                        let response = await fetch(`${BASE_URL}/api/subjects/create-subjectcategory/`, {
+                              method: "POST", 
+                              headers: {Authorization: `Token ${token}`},
+                              body: formData
+                        })
+                        let degree_data = await response.json()
+                        data.push(degree_data)
+                  }
+            }
+            return data
+      } catch (error) {
+            throw error;
+      }
+});
+
+
+export const createSubjectListUniversity = createAsyncThunk("subjects/createSubjectListUniversity", async ({ subjects, category_id, token }) => {
+      try {
+            let subject_list = subjects.split(/\r?\n/)
+            let data = []
+            for (let subject of subject_list) {
+                  if(subject != ''){
+                        let formData = new FormData();
+                        formData.append("name", subject);
+                        formData.append("description", subject);
+                        formData.append("is_university_subject", true);
+                        formData.append("category", category_id);
+                        let response = await fetch(`${BASE_URL}/api/subjects/create-subject/`, {
+                              method: "POST", 
+                              headers: {Authorization: `Token ${token}`},
+                              body: formData
+                        })
+                        let subject_data = await response.json()
+                        data.push(subject_data)
+                  }
+            }
+            return data
+      } catch (error) {
+            throw error;
+      }
+});
+
+
+// GETS
+
 export const getCategories = createAsyncThunk("subjects/getCategories", async () => {
       try {
             const response = await fetch(`${BASE_URL}/api/subjects/get-regular/`, {method: "GET"})
@@ -55,6 +176,88 @@ export const subjectSlice = createSlice({
       reducers: {},
       extraReducers: (builder) => {
             builder
+            //CREATE UNIVERSITIY
+            .addCase(createUniversity.pending, (state, action) => {
+                  return { ...state, universities:{...state.universities, loading:true} }
+            })
+            .addCase(createUniversity.fulfilled, (state, action) => {
+                  let new_university = action.payload
+                  new_university["degrees"] = []
+                  let new_universities = [...state.universities.universities, new_university]
+                  localStorage.setItem("universities", JSON.stringify(new_universities))
+                  return { ...state, universities:{universities:new_universities, loading:false} }
+            })
+            .addCase(createUniversity.rejected, (state, action) => {
+                  return { ...state, universities:{...state.universities, loading:false }, error: action.error.message }
+            })
+            //CREATE SUBJECT CATEGORY
+            .addCase(createSubjectCategory.pending, (state, action) => {
+                  return { ...state, categories:{...state.categories, loading:true} }
+            })
+            .addCase(createSubjectCategory.fulfilled, (state, action) => {
+                  let new_subjectcategory = action.payload
+                  new_subjectcategory["subjects"] = []
+                  let new_categories = [...state.categories.categories, new_subjectcategory]
+                  localStorage.setItem("categories", JSON.stringify(new_categories))
+                  return { ...state, categories:{categories:new_categories, loading:false} }
+            })
+            .addCase(createSubjectCategory.rejected, (state, action) => {
+                  return { ...state, categories:{...state.categories, loading:false }, error: action.error.message }
+            })
+            //CREATE SUBJECT LIST
+            .addCase(createSubjectList.pending, (state, action) => {
+                  return { ...state, categories:{...state.categories, loading:true} }
+            })
+            .addCase(createSubjectList.fulfilled, (state, action) => {
+                  let { category_id } = action.meta.arg
+                  let new_categories = state.categories.categories.map((obj) => obj.id == category_id ? {
+                        ...obj,
+                        subjects: [...obj.subjects, ...action.payload ]
+                  } : obj) 
+                  localStorage.setItem("categories", JSON.stringify(new_categories))
+                  return { ...state, categories:{categories:new_categories} }
+            })
+            .addCase(createSubjectList.rejected, (state, action) => {
+                  return { ...state, categories:{...state.categories, loading:false }, error: action.error.message }
+            })
+            //CREATE UNIVERSITY DEGREES
+            .addCase(createUniversityDegree.pending, (state, action) => {
+                  return { ...state, universities:{...state.universities, loading:true} }
+            })
+            .addCase(createUniversityDegree.fulfilled, (state, action) => {
+                  let { university_id } = action.meta.arg
+                  let new_universities = state.universities.universities.map((obj) => obj.id == university_id ? {
+                        ...obj,
+                        degrees: [...obj.degrees, ...action.payload ]
+                  } : obj)
+                  localStorage.setItem("universities", JSON.stringify(new_universities))
+                  return { ...state, universities:{universities:new_universities} }
+            })
+            .addCase(createUniversityDegree.rejected, (state, action) => {
+                  return { ...state, universities:{...state.universities, loading:false }, error: action.error.message }
+            })
+            //CREATE SUBJECT LIST FOR DEGREE
+            .addCase(createSubjectListUniversity.pending, (state, action) => {
+                  return { ...state, universities:{...state.universities, loading:true} }
+            })
+            .addCase(createSubjectListUniversity.fulfilled, (state, action) => {
+                  let { category_id } = action.meta.arg
+                  let new_universities = state.universities.universities.map((university) => ({
+                        ...university,
+                        degrees:university.degrees.map((obj) => obj.id == category_id ? {
+                              ...obj,
+                              subjects:[...obj.subjects, ...action.payload]
+                        } : obj)
+                  }))
+                  return { ...state, universities:{universities:new_universities} }
+            })
+
+            .addCase(createSubjectListUniversity.rejected, (state, action) => {
+                  return { ...state, universities:{...state.universities, loading:false }, error: action.error.message }
+            })
+
+
+
             //GET CATEGORIES
             .addCase(getCategories.pending, (state, action) => {
                   return { ...state, categories:{...state.categories, loading:true} }

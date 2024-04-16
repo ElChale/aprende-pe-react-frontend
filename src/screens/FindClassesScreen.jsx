@@ -265,7 +265,7 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                                           />
                                     </Form.Group>
                               </Form>
-                              {
+                              { 
                                     showUniversities ? 
                                           universities.universities !== undefined && universities.universities !== null ? universities.universities.map((university, i) => (
                                                 university.name.toLowerCase().includes(search) ? 
