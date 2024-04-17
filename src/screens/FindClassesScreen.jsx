@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 
-import { BASE_URL, BLUE, PINK, ORANGE, GREEN, orderMapping } from '../utils'
+import { BASE_URL, BLUE, PINK, ORANGE, GREEN, orderMapping, CONTACT_PHONE } from '../utils'
 import { DatePicker, TimePicker, DateTimePicker } from '@mui/x-date-pickers';
 
 import dayjs from 'dayjs';
@@ -138,10 +138,21 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
             setShowSubjectModal(false)
             setSubjects(subjects => subjects.some(item => item.id == subject.id) ? subjects : [...subjects, subject])
       }
+      // add all subjects
+      const handleAddAllSubjects = (category) => {
+            setShowCategoriesModal(false)
+            setShowSubjectModal(false)
+            setSubjects(subjects => [...new Set([...subjects, ...category.subjects])])
+      }
       // delete subject 
       const handleDeleteSubject = (subject) => {
             setShowSubjectModal(false)
             setSubjects(subjects.filter(item => item.id != subject.id))
+      }
+      // reset subjects
+      const handleResetSubjects = () => {
+            setShowSubjectModal(false)
+            setSubjects([])
       }
 
       // CLASS TYPES DETAILS MODAL
@@ -268,7 +279,7 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                               { 
                                     showUniversities ? 
                                           universities.universities !== undefined && universities.universities !== null ? universities.universities.map((university, i) => (
-                                                university.name.toLowerCase().includes(search) ? 
+                                                university.name.toLowerCase().includes(search) && university.degrees !== undefined && university.degrees !== null && university.degrees?.length > 0 ? 
                                                 <div key={i}>
                                                       <div  className='flex justify-between align-items-center border-b p-2 select-none' onClick={() => handleOpenUniversity(university.id)}>
                                                             <h6>{university.name}</h6>
@@ -278,7 +289,7 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                                                             {
                                                             university.id == openUniversity ? (
                                                                   university.degrees !== undefined && university.degrees !== null ? university.degrees.map((degree, j) => (
-                                                                        degree.is_university_degree ?
+                                                                        degree.is_university_degree && degree.subjects !== undefined && degree.subjects !== null && degree.subjects?.length > 0 ?
                                                                               <div key={j}>
                                                                               <div  className='flex justify-between align-items-center border-b p-2 select-none' onClick={() => handleOpenCategory(degree.id)}>
                                                                                     <span>{degree.name}</span>
@@ -286,7 +297,8 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                                                                               </div>
                                                                               <div className={`flex flex-wrap mt-3 transition-transform transform ${degree.id == openCategory ? 'origin-top-left scale-100' : 'origin-top-left scale-75'}`}>
                                                                                     {
-                                                                                          degree.id == openCategory ? (
+                                                                                          degree.id == openCategory ? <>
+                                                                                          {
                                                                                                 degree.subjects !== undefined && degree.subjects !== null ? degree.subjects.map((subject, k) => (
                                                                                                       subject.is_university_subject ?
                                                                                                             <div key={k} style={{backgroundColor:ORANGE}} onClick={() => handleAddSubject(subject)} className='flex align-items-center text-white rounded-xl px-2 py-1 mr-2 mb-2 select-none shadow-none hover:shadow-lg scale-100 hover:scale-105'
@@ -301,8 +313,21 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                                                                                                                   /></div>
                                                                                                       : null
                                                                                                 )) : null
-                                                                                          ) : null
+                                                                                          }
+                                                                                          <div onClick={() => handleAddAllSubjects(degree)} className='flex align-items-center bg-gray-400 text-white rounded-xl px-2 py-1 mr-2 mb-2 select-none shadow-none hover:shadow-lg scale-100 hover:scale-105'
+                                                                        
+                                                                                          onMouseOver={(e) => e.target.children[0]?.classList.add('spin-on-hover')}
+                                                                                          onMouseOut={(e) => e.target.children[0]?.classList.remove('spin-on-hover')}
+                                                                                          >
+                                                                                          Añadir todos<img className='w-3 h-3 ml-2' src="/plus_icon.png" 
+                                                                                          style={{
+                                                                                                transition: 'transform 1s cubic-bezier(0.43, 0.13, 0.23, 0.96)'
+                                                                                          }}
+                                                                                          onLoad={(e) => e.target.classList.add('spin-on-load')}
+                                                                                          /></div>
+                                                                                          </> : null
                                                                                     }
+                                                                                    
                                                                               </div>
                                                                               </div>
                                                                         : null
@@ -311,10 +336,11 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                                                             }
                                                       </div>
                                                 </div> : null
-                                          )) : "Error"
+                                                
+                                          )) : "Cargando..."
                                      : 
                                           categories.categories !== undefined && categories.categories !== null ? categories.categories.map((category,i) => (
-                                                category.name.toLowerCase().includes(search) ?
+                                                category.name.toLowerCase().includes(search) && category.subjects !== undefined && category.subjects !== null && category.subjects?.length > 0 ?
                                                 <div key={i}>
                                                       <div  className='flex justify-between align-items-center border-b p-2 select-none' onClick={() => handleOpenCategory(category.id)}>
                                                             <h6>{category.name}</h6>
@@ -322,7 +348,8 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                                                       </div>
                                                       <div className={`flex flex-wrap mt-3 transition-transform transform ${category.id == openCategory ? 'origin-top-left scale-100' : 'origin-top-left scale-75'}`}>
                                                             {
-                                                                  category.id == openCategory ? (
+                                                                  category.id == openCategory ? <>
+                                                                        {
                                                                         category.subjects !== undefined && category.subjects !== null ? category.subjects.map((subject, j) => (
                                                                               !subject.is_university_subject ?
                                                                                     <div key={j} style={{backgroundColor:BLUE}} onClick={() => handleAddSubject(subject)} className='flex align-items-center text-white rounded-xl px-2 py-1 mr-2 mb-2 select-none shadow-none hover:shadow-lg scale-100 hover:scale-105'
@@ -338,13 +365,32 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                                                                                           /></div>
                                                                               : null
                                                                         )) : null
-                                                                  ) : null
+                                                                        }
+                                                                        <div onClick={() => handleAddAllSubjects(category)} className='flex align-items-center bg-gray-400 text-white rounded-xl px-2 py-1 mr-2 mb-2 select-none shadow-none hover:shadow-lg scale-100 hover:scale-105'
+                                                                        
+                                                                        onMouseOver={(e) => e.target.children[0]?.classList.add('spin-on-hover')}
+                                                                        onMouseOut={(e) => e.target.children[0]?.classList.remove('spin-on-hover')}
+                                                                        >
+                                                                        Añadir todos<img className='w-3 h-3 ml-2' src="/plus_icon.png" 
+                                                                        style={{
+                                                                              transition: 'transform 1s cubic-bezier(0.43, 0.13, 0.23, 0.96)'
+                                                                        }}
+                                                                        onLoad={(e) => e.target.classList.add('spin-on-load')}
+                                                                        /></div>
+                                                                  </> : null
                                                             }
+                                                            
                                                       </div>
                                                 </div> : null
                                           )) : "Error"
                                     
-                              }                                  
+                              }       
+                              {
+                                    showUniversities ? 
+                                    <div className='mx-3 text-orange-400'>¿No está tu universidad o hay algun curso faltante o incorrecto? Escribele con toda confianza a nuestro <span className='text-blue-400 text-sub select-none' onClick={() => {window.open(`https://api.whatsapp.com/send?phone=${CONTACT_PHONE}&text=Hola%20soy%20un%20usuario%20de%20aprende.pe%20y%20quiero%20solicitar%20que%20se%20agregue:%20`, '_blank')}}>equipo técnico</span> para añadirlo o editarlo.</div>
+                                    :
+                                    <div className='mx-3 text-orange-400'>¿Quisieras que se añada un curso o categoría? Escribele con toda confianza a nuestro <span className='text-blue-400 text-sub select-none' onClick={() => {window.open(`https://api.whatsapp.com/send?phone=${CONTACT_PHONE}&text=Hola%20soy%20un%20usuario%20de%20aprende.pe%20y%20quiero%20solicitar%20que%20se%20agregue:%20`, '_blank')}}>equipo técnico</span> para añadirlo o editarlo.</div>
+                              }
                         </Modal.Body>
                   </Modal>
                   {/* SUBJECT DETAILS MODAL */}
@@ -780,6 +826,9 @@ function FindClassesScreen({categories, querys, universities, userChats, userInf
                                           />
                                     </div>
                               </div>
+                              {
+                                    subjects?.length > 0 && <div onClick={() => handleResetSubjects()} className='text-blue-400 mt-2 select-none'>Resetear cursos</div>
+                              }
                               {/*
                                     <h6 className='mt-3'>Modalidades</h6>
                                     <div className='flex flex-wrap text-white border rounded-2xl pt-2 pl-2'>

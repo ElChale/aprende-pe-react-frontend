@@ -157,7 +157,7 @@ function TeacherLandingScreen({userInfo, teacherProfile, categories, universitie
                               {
                                     showUniversities ? 
                                           universities.universities !== undefined && universities.universities !== null ? universities?.universities?.map((university, i) => (
-                                                university.name.toLowerCase().includes(search) ? 
+                                                university.name.toLowerCase().includes(search) && university.degrees !== undefined && university.degrees !== null && university.degrees?.length > 0 ? 
                                                 <div key={i}>
                                                       <div  className='flex justify-between align-items-center border-b p-2 select-none' onClick={() => handleOpenUniversity(university.id)}>
                                                             <h6>{university.name}</h6>
@@ -167,7 +167,7 @@ function TeacherLandingScreen({userInfo, teacherProfile, categories, universitie
                                                             {
                                                             university.id == openUniversity ? (
                                                                   university.degrees !== undefined && university.degrees !== null ? university?.degrees?.map((degree, j) => (
-                                                                        degree.is_university_degree ?
+                                                                        degree.is_university_degree && degree.subjects !== undefined && degree.subjects !== null && degree.subjects?.length > 0 ?
                                                                               <div key={j}>
                                                                               <div  className='flex justify-between align-items-center border-b p-2 select-none' onClick={() => handleOpenCategory(degree.id)}>
                                                                                     <span>{degree.name}</span>
@@ -203,7 +203,7 @@ function TeacherLandingScreen({userInfo, teacherProfile, categories, universitie
                                           )) : "Error"
                                      : 
                                           categories.categories !== undefined && categories.categories !== null ? categories?.categories?.map((category,i) => (
-                                                category.name.toLowerCase().includes(search) ?
+                                                category.name.toLowerCase().includes(search) && category.subjects !== undefined && category.subjects !== null && category.subjects?.length > 0 ?
                                                 <div key={i}>
                                                       <div  className='flex justify-between align-items-center border-b p-2 select-none' onClick={() => handleOpenCategory(category.id)}>
                                                             <h6>{category.name}</h6>
@@ -233,7 +233,13 @@ function TeacherLandingScreen({userInfo, teacherProfile, categories, universitie
                                                 </div> : null
                                           )) : "Error"
                                     
-                              }                                  
+                              } 
+                              {
+                                    showUniversities ? 
+                                    <div className='mx-3 text-orange-400'>¿No está tu universidad o hay algun curso faltante o incorrecto? Escribele con toda confianza a nuestro <span className='text-blue-400 text-sub select-none' onClick={() => {window.open(`https://api.whatsapp.com/send?phone=${CONTACT_PHONE}&text=Hola%20soy%20un%20usuario%20de%20aprende.pe%20y%20quiero%20solicitar%20que%20se%20agregue:%20`, '_blank')}}>equipo técnico</span> para añadirlo o editarlo.</div>
+                                    :
+                                    <div className='mx-3 text-orange-400'>¿Quisieras que se añada un curso o categoría? Escribele con toda confianza a nuestro <span className='text-blue-400 text-sub select-none' onClick={() => {window.open(`https://api.whatsapp.com/send?phone=${CONTACT_PHONE}&text=Hola%20soy%20un%20usuario%20de%20aprende.pe%20y%20quiero%20solicitar%20que%20se%20agregue:%20`, '_blank')}}>equipo técnico</span> para añadirlo o editarlo.</div>
+                              }                                 
                         </Modal.Body>
                   </Modal>
                   {/* SUBJECT DETAILS MODAL */}
